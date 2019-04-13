@@ -23,5 +23,7 @@ pip install scipy
 pip install pytube
 ```
 
+[ffmpeg](https://ffmpeg.org/download.html)
+
 ## Building with nix
 `nix-build` to get a script with all the libraries and ffmpeg, `nix-build -A bundle` to get a single binary.
