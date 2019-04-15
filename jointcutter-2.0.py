@@ -14,12 +14,15 @@ from pytube import YouTube
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 import time
+from tkinter import ttk
+from tkinter import filedialog
 
 
 Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
 filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 print(filename)
 time.sleep(1)
+
 
 def downloadFile(url):
     name = YouTube(url).streams.first().download()
@@ -43,21 +46,22 @@ def copyFrame(inputFrame,outputFrame):
     return True
 
 def inputToOutputFilename(filename):
-    dotIndex = filename.rfind(".")
-    return filename[:dotIndex]+"_ALTERED"+filename[dotIndex:]
+
+    save_name= input("Enter OUTPUT_NAME:")
+    return save_name+".mp4"
 
 def createPath(s):
     #assert (not os.path.exists(s)), "The filepath "+s+" already exists. Don't want to overwrite it. Aborting."
 
-    try:  
-        os.mkdir(s)
-    except OSError:  
+    try:
+        os.mkdir(s,0o777)
+    except OSError:
         assert False, "Creation of the directory %s failed. (The TEMP folder may already exist. Delete or rename it, and try again.)"
 
 def deletePath(s): # Dangerous! Watch out!
-    try:  
+    try:
         rmtree(s,ignore_errors=False)
-    except OSError:  
+    except OSError:
         print ("Deletion of the directory %s failed" % s)
         print(OSError)
 
@@ -90,7 +94,7 @@ URL = args.url
 FRAME_QUALITY = args.frame_quality
 
 assert INPUT_FILE != None , "why u put no input file, that dum"
-    
+
 if len(args.output_file) >= 1:
     OUTPUT_FILE = args.output_file
 else:
@@ -98,7 +102,7 @@ else:
 
 TEMP_FOLDER = "TEMP"
 AUDIO_FADE_ENVELOPE_SIZE = 400 # smooth out transitiion's audio by quickly fading in/out (arbitrary magic number whatever)
-    
+
 createPath(TEMP_FOLDER)
 
 command = "ffmpeg -i "+INPUT_FILE+" -qscale:v "+str(FRAME_QUALITY)+" "+TEMP_FOLDER+"/frame%06d.jpg -hide_banner"
@@ -161,7 +165,7 @@ outputPointer = 0
 lastExistingFrame = None
 for chunk in chunks:
     audioChunk = audioData[int(chunk[0]*samplesPerFrame):int(chunk[1]*samplesPerFrame)]
-    
+
     sFile = TEMP_FOLDER+"/tempStart.wav"
     eFile = TEMP_FOLDER+"/tempEnd.wav"
     wavfile.write(sFile,SAMPLE_RATE,audioChunk)
@@ -177,7 +181,7 @@ for chunk in chunks:
     #outputAudioData[outputPointer:endPointer] = alteredAudioData/maxAudioVolume
 
     # smooth out transitiion's audio by quickly fading in/out
-    
+
     if leng < AUDIO_FADE_ENVELOPE_SIZE:
         outputAudioData[outputPointer:endPointer] = 0 # audio is less than 0.01 sec, let's just remove it.
     else:
@@ -210,5 +214,3 @@ command = "ffmpeg -framerate "+str(frameRate)+" -i "+TEMP_FOLDER+"/newFrame%06d.
 subprocess.call(command, shell=True)
 
 deletePath(TEMP_FOLDER)
-os.rmdir("TEMP")
-
