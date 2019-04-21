@@ -11,7 +11,7 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{9D53307C-B988-4E58-93C6-2B195FF40D25}
+AppId={{0D73ACD6-88EC-48C7-9F83-20B81DC026A1}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -19,7 +19,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\PiSaucer\jumpcutter\
+DefaultDirName={sd}\PiSaucer\jumpcutter
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=C:\Users\alans\Documents\jumpcutter-github\exe\jointcutter-2.0\LICENSE
@@ -53,5 +53,5 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Messages]
-WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications and disable any anti virus before continuing.
+WelcomeLabel2=This will install Jumpcutter on your computer.%n%nIt is recommended that you close all other applications and disable any anti virus before continuing.
 
